@@ -1,7 +1,7 @@
 import TextField from '@mui/material/TextField';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import { Box } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -23,40 +23,51 @@ export default function Form({ addExpense }) {
         date: dayjs()
     });
 
-    const types = ["Health Care", "Food", "House Rent", "EMI", "Shopping"];
+    const [error, setError] = useState({
+        description: '',
+        amount: '',
+        type: ''
+    });
 
-    const setAmount = (e) => {
+    const [isRequiredFieldsFilled, setIsRequiredFieldsFilled] = useState(false);
+
+    useEffect(() => {
+        let checkRequiredFiledsFilled = Object.entries(form)
+            .filter(([key]) => key !== 'date')
+            .every(([key, value]) => value !== '');
+        let checkForErrors = Object.values(error).every(value => value === '');
+        console.log('checkRequiredFieldsFilled ', checkRequiredFiledsFilled, ' checkForErrors ', checkForErrors);
+        setIsRequiredFieldsFilled(checkRequiredFiledsFilled && checkForErrors);
+    }, [form, error]);
+
+    // const validateForm = () => {
+    //     let valid = true;
+    //     let errors = {};
+    //     if (!form.description) {
+    //         console.log('desciption ', form.description);
+    //         errors.description = "Description is required";
+    //         valid = false;
+    //         console.log(errors);
+    //     }
+    //     setError(errors);
+    //     return valid;
+    // }
+
+    const types = ["Healthcare", "Food", "Rent", "EMI", "Shopping", "Utilities", "Transportation", "Personal Care", "Education",
+        "Miscellaneous", "Entertainment"];
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
         setForm({
             ...form,
-            amount: e.target.value !== '' ? parseInt(e.target.value, 10) : '',
+            [name]: value  // [] is used for computed property it is used to dynamically set key
         });
-    };
-
-    const handleTypeChange = (e) => {
-        setForm({
-            ...form,
-            type: e.target.value,
-        })
-    };
-
-    const handleDescriptionChange = (e) => {
-        setForm({
-            ...form,
-            description: e.target.value,
-        })
+        setError({
+            ...error,
+            [name]: ''
+        });
+        console.log('form ', form);
     }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        addExpense({ id: Math.floor(Date.now() / 1000), amount: form.amount, description: form.description, type: form.type, date: form.date });
-        console.log(form);
-        setForm({
-            description: '',
-            amount: '',
-            type: '',
-            date: dayjs()
-        });
-    };
 
     const handleDateChange = (newDate) => {
         console.log(newDate);
@@ -66,6 +77,70 @@ export default function Form({ addExpense }) {
         })
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // if (validateForm()) {
+            addExpense({
+                id : Math.floor(Date.now() / 1000), 
+                amount : parseInt(form.amount, 10),
+                description : form.description, 
+                type : form.type, date: form.date
+            });
+            console.log(form);
+            setForm({
+                description : '',
+                amount : '',
+                type : '',
+                date : dayjs()
+            });
+        // }
+
+    };
+
+    const validateField = (name, value) => {
+        let newError = { ...error };
+        switch (name) {
+            case "description":
+                newError.description = !value ? "Description is required" : '';
+                break;
+            case "amount":
+                if (!value) {
+                    newError.amount = "Amount is required";
+                    console.log('amount error value');
+                }
+                else if (/[a-zA-Z]/.test(value)) {
+                    newError.amount = "Enter valid numbers";
+                }
+                else if (/[-]/.test(value)) {
+                    newError.amount = "Amount can't be negative";
+                }
+                break;
+            case "type":
+                if (!value) {
+                    newError.type = "Please select an expense type";
+                }
+                break;
+            default:
+                break;
+        }
+        console.log(newError);
+        setError(newError);
+
+    }
+
+    const handleBlur = (e) => {
+        const { name, value } = e.target;
+        // setError({
+        //     ...error,
+        //     [name]: `${name} is required`
+        // });
+        console.log('name and value before calling validateField ', name, value);
+        validateField(name, value);
+        console.log('Error ', error);
+    }
+
+
+
     return (
         <form onSubmit={handleSubmit}>
             <Box sx={{
@@ -74,12 +149,16 @@ export default function Form({ addExpense }) {
                 justifyContent: 'center'
             }}>
                 <TextField
-                    required
-                    id="outlined-number"
+                    // required
+                    id="Description"
+                    name="description"
                     label="Description"
                     type="text"
                     value={form.description}
-                    onChange={handleDescriptionChange}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={!!error.description}
+                    helperText={error.description}
                     InputLabelProps={{
                         shrink: true,
                     }}
@@ -109,11 +188,15 @@ export default function Form({ addExpense }) {
                 />
                 <TextField
                     required
-                    id="outlined-number"
+                    id="Amount"
+                    name="amount"
                     label="Amount"
                     type="number"
                     value={form.amount}
-                    onChange={setAmount}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={!!error.amount}
+                    helperText={error.amount}
                     InputLabelProps={{
                         shrink: true,
                     }}
@@ -141,11 +224,15 @@ export default function Form({ addExpense }) {
                     }}
                 />
                 <TextField
-                    id="outlined-select-type"
+                    id="Type"
+                    name="type"
                     select
                     label="Type"
                     value={form.type}
-                    onChange={handleTypeChange}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={!!error.type}
+                    helperText={error.type}
                     size="Large"
                     margin="normal"
                     InputProps={{
@@ -180,6 +267,7 @@ export default function Form({ addExpense }) {
                         <DemoContainer components={['DatePicker']}>
                             <DatePicker value={form.date}
                                 onChange={handleDateChange}
+                                name="date"
                                 label="Date"
                                 defaultValue={dayjs()}
                                 maxDate={dayjs()} sx={{
@@ -203,7 +291,7 @@ export default function Form({ addExpense }) {
                     justifyContent: 'center',
                     mt: 2,
                 }}>
-                    <Button variant="contained" type='submit' endIcon={<AddBoxIcon />} sx={{
+                    <Button variant="contained" type='submit' disabled={!isRequiredFieldsFilled} endIcon={<AddBoxIcon />} sx={{
                         backgroundColor: 'green',
                         ':hover': {
                             backgroundColor: '#ba3316',

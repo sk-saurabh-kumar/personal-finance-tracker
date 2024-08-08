@@ -64,10 +64,10 @@ const ExpenseHistoryCard = ({ expense }) => {
                     </Box>
                     <Typography sx={{
                         fontSize: '12px',
-                        color: '#ccc',
+                        color: '#e0e0e0',
                         mt: 1,
                     }}>
-                        Description: Rent for the house in August
+                        {expense.description}
                     </Typography>
 
                 </CardContent>

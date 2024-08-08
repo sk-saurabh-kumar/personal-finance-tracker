@@ -77,13 +77,11 @@ export default function Dashboard() {
                 alignItems: 'center',
                 py: 2,
                 px: 6,
-                mb: 2
+                mb: 2,
+                background: 'linear-gradient(45deg, #0a0a0a, #1a1a1a)',
+                // backgroundColor: '#2a2a2a',
             }}>
-                {/* <IconButton size="large">
-                    <AddBoxIcon />
-                </IconButton>
-                <Typography variant="h5">ADD</Typography> */}
-                <Form addExpense={handleNewExpense} />
+              <Form addExpense={handleNewExpense} />
             </Paper>
             <ExpenseHistory expenses={expenses}/>
             <Paper variant="elevation" elevation={5} square={true} sx={{
@@ -92,7 +90,9 @@ export default function Dashboard() {
                 p: 2,
                 height: '250px',
                 mr:0,
-                backgroundColor: '#121212'
+                // backgroundColor: '#0d0d0d'
+                background: 'linear-gradient(45deg, #0a0a0a, #1a1a1a)',
+                // boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)'
             }}>
                 <PieChart
                     series={[
