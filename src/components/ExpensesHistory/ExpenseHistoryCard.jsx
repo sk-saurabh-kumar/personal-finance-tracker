@@ -1,14 +1,74 @@
 import { Card, CardContent, Box, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ShoppingCartRoundedIcon from '@mui/icons-material/ShoppingCartRounded';
 // import { amber } from '@mui/material/colors';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
-
-
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import CreditCardRoundedIcon from '@mui/icons-material/CreditCardRounded';
+import BoltRoundedIcon from '@mui/icons-material/BoltRounded';
+import DirectionsCarRoundedIcon from '@mui/icons-material/DirectionsCarRounded';
+import SpaRoundedIcon from '@mui/icons-material/SpaRounded';
+import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded';
+import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded';
+import MovieCreationRoundedIcon from '@mui/icons-material/MovieCreationRounded';
 
 
 
 const ExpenseHistoryCard = ({ expense }) => {
+    const iconStyles = {
+        fontSize: '24px',
+        pr: 1
+    }
+
+    const getIcon = (type) => {
+        let icon;
+        switch (type) {
+            case "Healthcare":
+                icon = <LocalHospitalIcon sx={iconStyles}/>
+                break;
+            case "Food":
+                icon = <FastfoodIcon sx={iconStyles}/>
+                break;
+            case "Housing":
+                icon = <HomeRoundedIcon sx={iconStyles}/>
+                break;
+            case "EMI":
+                icon = <CreditCardRoundedIcon sx={iconStyles}/>
+                break;
+            case "Shopping":
+                icon = <ShoppingCartRoundedIcon sx={iconStyles}/>
+                break;
+            case "Utilities":
+                icon = <BoltRoundedIcon sx={iconStyles}/>
+                break;
+            case "Transportation":
+                icon = <DirectionsCarRoundedIcon sx={iconStyles}/>
+                break;
+            case "Personal Care":
+                icon = <SpaRoundedIcon sx={iconStyles}/>
+                break;
+            case "Education":
+                icon = <SchoolRoundedIcon sx={iconStyles}/>
+                break;
+            case "Miscellaneous":
+                icon = <CategoryRoundedIcon sx={iconStyles}/>
+                break;
+            case "Entertainment":
+                icon = <MovieCreationRoundedIcon sx={iconStyles}/>
+                break;
+            default:
+                break;
+        }
+        console.log('Icon ', icon);
+        return icon;
+    }
+
+    const icon = getIcon(expense.type);
+
+
+
     return (
         <Grid item variant="elevation" sx={{
             // width: '100px',
@@ -38,11 +98,12 @@ const ExpenseHistoryCard = ({ expense }) => {
                         color: '#fff;',
                         fontWeight: '625',
                     }}>
-                        <ShoppingCartIcon sx={{
+                        {/* <ShoppingCartIcon sx={{
                             // color: 'black',
                             fontSize: '24px',
                             pr: 1
-                        }} />
+                        }} /> */}
+                        {icon}
                         <Typography variant="h6" component="p" sx={{
                             fontSize: '18px'
                         }}>{expense.type}</Typography>

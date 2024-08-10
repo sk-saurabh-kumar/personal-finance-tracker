@@ -1,4 +1,4 @@
-import { IconButton, Paper, Typography, Card } from "@mui/material";
+import { IconButton, Paper, Typography, Card, Container } from "@mui/material";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import Form from "./Form";
 import { useState } from "react";
@@ -61,15 +61,23 @@ export default function Dashboard() {
         <Card square={true} sx={{
             backgroundColor: '#1e1e1e',
             display: 'flex',
-            width: '100%',
+            // width: '100%',
             // alignItems: 'center',
             '@media (max-width: 900px)': {
                 // flexDirection: 'column'
                 flexWrap: 'wrap'
             },
-            px: 0
+            px: 0,
+            py: 4,
+            pl: 2,
+            
         }}>
-            <Paper variant="elevation" elevation={5} square={true} sx={{
+            {/* <Container maxWidth="xl" disableGutters="true" sx={{
+                display: 'flex',
+                py: 2
+
+            }}> */}
+            <Paper variant="elevation" elevation={5}  sx={{
                 // height: '250px',
                 // width: '350px',
                 display: 'flex',
@@ -106,6 +114,7 @@ export default function Dashboard() {
                     colors={cheerfulFiestaPaletteDark}
                 />
             </Paper>
+            {/* </Container> */}
 
         </Card>
     );

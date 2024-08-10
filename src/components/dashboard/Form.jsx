@@ -40,20 +40,7 @@ export default function Form({ addExpense }) {
         setIsRequiredFieldsFilled(checkRequiredFiledsFilled && checkForErrors);
     }, [form, error]);
 
-    // const validateForm = () => {
-    //     let valid = true;
-    //     let errors = {};
-    //     if (!form.description) {
-    //         console.log('desciption ', form.description);
-    //         errors.description = "Description is required";
-    //         valid = false;
-    //         console.log(errors);
-    //     }
-    //     setError(errors);
-    //     return valid;
-    // }
-
-    const types = ["Healthcare", "Food", "Rent", "EMI", "Shopping", "Utilities", "Transportation", "Personal Care", "Education",
+    const types = ["Healthcare", "Food", "Housing", "EMI", "Shopping", "Utilities", "Transportation", "Personal Care", "Education",
         "Miscellaneous", "Entertainment"];
 
     const handleChange = (e) => {
@@ -79,21 +66,19 @@ export default function Form({ addExpense }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // if (validateForm()) {
-            addExpense({
-                id : Math.floor(Date.now() / 1000), 
-                amount : parseInt(form.amount, 10),
-                description : form.description, 
-                type : form.type, date: form.date
-            });
-            console.log(form);
-            setForm({
-                description : '',
-                amount : '',
-                type : '',
-                date : dayjs()
-            });
-        // }
+        addExpense({
+            id: Math.floor(Date.now() / 1000),
+            amount: parseInt(form.amount, 10),
+            description: form.description,
+            type: form.type, date: form.date
+        });
+        console.log(form);
+        setForm({
+            description: '',
+            amount: '',
+            type: '',
+            date: dayjs()
+        });
 
     };
 
@@ -130,10 +115,6 @@ export default function Form({ addExpense }) {
 
     const handleBlur = (e) => {
         const { name, value } = e.target;
-        // setError({
-        //     ...error,
-        //     [name]: `${name} is required`
-        // });
         console.log('name and value before calling validateField ', name, value);
         validateField(name, value);
         console.log('Error ', error);
