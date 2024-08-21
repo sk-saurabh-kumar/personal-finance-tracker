@@ -5,21 +5,24 @@ import { useState } from "react";
 import { PieChart } from '@mui/x-charts/PieChart';
 import { useEffect } from "react";
 import { cheerfulFiestaPaletteDark } from "@mui/x-charts";
-import ExpenseHistory from "../ExpensesHistory/ExpenseHistory";
+import ExpenseHistory from "../expensesHistory/ExpenseHistory";
+import { useSelector } from "react-redux";
 
 
 export default function Dashboard() {
-    const [expenses, setExpenses] = useState([]);
+    // const [expenses, setExpenses] = useState([]);
     const [pieChartData, setPieChartData] = useState([]);
 
-    const handleNewExpense = (newExpense) => {
-        setExpenses([
-            ...expenses,
-            newExpense
-        ]);
-        console.log("Expenses before adding new expense", expenses);
-        addNewExpenseToChart(newExpense);
-    };
+    // const handleNewExpense = (newExpense) => {
+    //     setExpenses([
+    //         ...expenses,
+    //         newExpense
+    //     ]);
+    //     console.log("Expenses before adding new expense", expenses);
+    //     addNewExpenseToChart(newExpense);
+    // };
+
+    const expenses = useSelector((state) => state.expenses);
 
     const findMaxIdPresent = (pieChartData) => {
         if (pieChartData.size === 0) {
@@ -89,7 +92,7 @@ export default function Dashboard() {
                 background: 'linear-gradient(45deg, #0a0a0a, #1a1a1a)',
                 // backgroundColor: '#2a2a2a',
             }}>
-              <Form addExpense={handleNewExpense} />
+              <Form />
             </Paper>
             <ExpenseHistory expenses={expenses}/>
             <Paper variant="elevation" elevation={5} square={true} sx={{

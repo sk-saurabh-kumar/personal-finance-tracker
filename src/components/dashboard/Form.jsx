@@ -13,9 +13,11 @@ import InputAdornment from '@mui/material/InputAdornment';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import dayjs from 'dayjs';
 import DescriptionIcon from '@mui/icons-material/Description';
+import { useDispatch } from 'react-redux';
+import { addExpense } from '../../actions/expensesActions';
 
 
-export default function Form({ addExpense }) {
+export default function Form() {
     const [form, setForm] = useState({
         description: '',
         amount: '',
@@ -31,12 +33,16 @@ export default function Form({ addExpense }) {
 
     const [isRequiredFieldsFilled, setIsRequiredFieldsFilled] = useState(false);
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         let checkRequiredFiledsFilled = Object.entries(form)
             .filter(([key]) => key !== 'date')
             .every(([key, value]) => value !== '');
+
         let checkForErrors = Object.values(error).every(value => value === '');
         console.log('checkRequiredFieldsFilled ', checkRequiredFiledsFilled, ' checkForErrors ', checkForErrors);
+
         setIsRequiredFieldsFilled(checkRequiredFiledsFilled && checkForErrors);
     }, [form, error]);
 
@@ -66,12 +72,13 @@ export default function Form({ addExpense }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        addExpense({
+        dispatch(addExpense({
             id: Math.floor(Date.now() / 1000),
             amount: parseInt(form.amount, 10),
             description: form.description,
-            type: form.type, date: form.date
-        });
+            type: form.type, 
+            date: form.date
+        }));
         console.log(form);
         setForm({
             description: '',
