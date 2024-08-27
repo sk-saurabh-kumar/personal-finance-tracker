@@ -14,7 +14,7 @@ import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import dayjs from 'dayjs';
 import DescriptionIcon from '@mui/icons-material/Description';
 import { useDispatch } from 'react-redux';
-import { addExpense } from '../../actions/expensesActions';
+import { addExpense } from '../../actions/expenseActions';
 
 
 export default function Form() {
@@ -72,14 +72,18 @@ export default function Form() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(addExpense({
-            id: Math.floor(Date.now() / 1000),
-            amount: parseInt(form.amount, 10),
-            description: form.description,
-            type: form.type, 
-            date: form.date
-        }));
-        console.log(form);
+        // dispatch(addExpense({
+        //     id: Math.floor(Date.now() / 1000),
+        //     amount: parseInt(form.amount, 10),
+        //     description: form.description,
+        //     type: form.type, 
+        //     date: form.date
+        // }));
+        const payload = form;
+        console.log('payload ',payload);
+        // saveExpense(payload);
+        dispatch(addExpense(payload));
+        // console.log(form);
         setForm({
             description: '',
             amount: '',

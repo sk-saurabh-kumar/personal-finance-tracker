@@ -4,7 +4,7 @@ import ExpenseHistoryCard from "./ExpenseHistoryCard";
 export default function ExpenseHistory({ expenses }) {
 
     const sortedExpenses = expenses.slice() //creating a shallow copy of expenes make sure sort() doesn't mutate the original array
-                                   .sort((a, b) => b.date.toDate() - a.date.toDate());
+                                   .sort((a, b) => new Date(b.date) - new Date(a.date));
     console.log('Sorted Expense ', sortedExpenses);
 
 
@@ -25,9 +25,5 @@ export default function ExpenseHistory({ expenses }) {
                 }
             </Grid>
         </Container>
-
-        // <h1>
-        //     Help
-        // </h1>
     )
 }
