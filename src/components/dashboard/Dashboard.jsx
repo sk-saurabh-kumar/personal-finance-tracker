@@ -1,64 +1,23 @@
 import { Paper, Card } from "@mui/material";
 import Form from "./Form";
-import { useState } from "react";
 import { PieChart } from '@mui/x-charts/PieChart';
 import { useEffect } from "react";
 import { cheerfulFiestaPaletteDark } from "@mui/x-charts";
 import ExpenseHistory from "../expensesHistory/ExpenseHistory";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllExpenses } from "../../actions/expenseActions";
+import { getPieChartData } from "../../actions/pieChartActions";
 
 
 export default function Dashboard() {
-    // const [expenses, setExpenses] = useState([]);
-    const [pieChartData, setPieChartData] = useState([]);
     const dispatch = useDispatch();
 
-    // const handleNewExpense = (newExpense) => {
-    //     setExpenses([
-    //         ...expenses,
-    //         newExpense
-    //     ]);
-    //     console.log("Expenses before adding new expense", expenses);
-    //     addNewExpenseToChart(newExpense);
-    // };
-
     const expenses = useSelector((state) => state.expense.expenses);
-
-    // const findMaxIdPresent = (pieChartData) => {
-    //     if (pieChartData.size === 0) {
-    //         return null;
-    //     }
-    //     return pieChartData.reduce((maxId, data) => {
-    //         return data.id > maxId ? data.id : maxId
-    //     }, 0);
-    // }
-
-    // const addNewExpenseToChart = (newExpense) => {
-    //     let olderExpenseWithSameType = pieChartData.find((data) => data.label === newExpense.type);
-    //     // console.log('Older expense with same type ', olderExpenseWithSameType);
-
-    //     let id, olderExpenseAmount = 0;
-    //     if (olderExpenseWithSameType === undefined) {
-    //         id = findMaxIdPresent(pieChartData);
-    //         id === null ? id = 0 : id++;
-    //         console.log('New id will be ', id);
-    //     }
-    //     else {
-    //         olderExpenseAmount = olderExpenseWithSameType.value;
-    //         id = olderExpenseWithSameType.id;
-    //     }
-
-    //     setPieChartData([
-    //         ...pieChartData.filter((expense) => expense.label !== newExpense.type),
-    //         { id: id, value: olderExpenseAmount + newExpense.amount, label: newExpense.type }
-    //     ]);
-    // }
+    const pieChartData = useSelector((state) => state.pieChartData.data);
 
     useEffect(() => {
-        // console.log('Expense after adding new expense', expenses);
-        // console.log('Pie Chart data after add new expense ', pieChartData);
         dispatch(getAllExpenses());
+        dispatch(getPieChartData());
     }, [dispatch]);
 
 

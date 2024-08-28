@@ -1,6 +1,6 @@
 import './App.css';
 import Header from './components/common/Header.jsx';
-import Dashboard from './components/dashboard/Dashboard.jsx'
+import Dashboard from './components/dashboard/dashboard.jsx';
 
 function App() {
   return (

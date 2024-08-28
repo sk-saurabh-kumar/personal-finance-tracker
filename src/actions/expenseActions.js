@@ -1,4 +1,5 @@
 import { saveExpense, getExpenses } from "../api/expenseApi";
+import { getPieChartData } from "./pieChartActions";
 import { ADD_EXPENSE_FAILURE, ADD_EXPENSE_REQUEST, ADD_EXPENSE_SUCCESS, GET_EXPENSES_FAILURE, GET_EXPENSES_REQUEST, GET_EXPENSES_SUCCESS } from "./types"
 
 export const addExpense = (expense) => {
@@ -10,6 +11,7 @@ export const addExpense = (expense) => {
                 type: ADD_EXPENSE_SUCCESS, 
                 payload: response.data
             });
+            dispatch(getPieChartData());
         }
         catch(err) {
             dispatch({

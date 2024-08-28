@@ -15,7 +15,6 @@ import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded';
 import MovieCreationRoundedIcon from '@mui/icons-material/MovieCreationRounded';
 
 
-
 const ExpenseHistoryCard = ({ expense }) => {
     const iconStyles = {
         fontSize: '24px',
@@ -61,13 +60,9 @@ const ExpenseHistoryCard = ({ expense }) => {
             default:
                 break;
         }
-        console.log('Icon ', icon);
         return icon;
     }
-
     const icon = getIcon(expense.type);
-
-
 
     return (
         <Grid item variant="elevation" sx={{
@@ -132,14 +127,9 @@ const ExpenseHistoryCard = ({ expense }) => {
                     </Typography>
 
                 </CardContent>
-
-
                 {/* <Typography>Date: {expense.date.toString()}</Typography> */}
-
             </Card>
-
         </Grid>
-
     );
 }
 
